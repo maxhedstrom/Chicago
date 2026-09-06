@@ -1,0 +1,20 @@
+{
+  "name": "Toepen Counter",
+  "short_name": "Toepen",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "Flag-Pins-Netherlands-Sweden.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "Flag-Pins-Netherlands-Sweden.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <style>
+        /* Stoppar iOS pinch-zoom */
+        html, body {
+            touch-action: manipulation; 
+        }
+            </style>
+        <title>Toepen Scorekeeper</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="manifest" href="manifest.js  ">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+
+    <body>
+
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="home-screen">
+        <img src="Flag-Pins-Netherlands-Sweden.jpg" class="flag-img">
+
+        <h1 class="home-title">Toepen</h1>
+        <p class="home-subtitle">The Ultimate Scorekeeper</p>
+
+        <div class="home-buttons">
+            <button id="startBtn" class="home-btn start">Start Game</button>
+            <button id="rulesBtn" class="home-btn rules">Rules</button>
+            <button id="scoresBtn" class="home-btn scores">Scoreboard</button>
+
+            <div class="version-tag">Version 1.0.2</div>
+
+        </div>
+    </div>
+
+    <!-- RULES SCREEN -->
+    <div id="rulesScreen" class="hidden rules-screen">
+
+        <div class="rules-card glass-box">
+            <h2 class="rules-title">Toepen Rules</h2>
+            <p class="rules-subtitle">A quick and clean guide to the game</p>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>🎯 Objective</h3>
+            <p>Avoid reaching <strong>15 points</strong>. The player who hits 15 is eliminated.</p>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>🃏 Card Ranking</h3>
+            <p>From strongest to weakest:</p>
+            <div class="rank-grid">
+                <div class="rank-item">10</div>
+                <div class="rank-item">9</div>
+                <div class="rank-item">8</div>
+                <div class="rank-item">7</div>
+                <div class="rank-item">A</div>
+                <div class="rank-item">K</div>
+                <div class="rank-item">Q</div>
+                <div class="rank-item">J</div>
+            </div>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>▶️ How a Round Works</h3>
+            <ul class="rules-list">
+                <li>Each player receives <strong>four cards</strong>.</li>
+                <li>The starting player leads the first card.</li>
+                <li>Players must <strong>follow suit</strong> if able.</li>
+                <li>The highest card in the leading suit wins the trick.</li>
+                <li>Winner starts next trick.</li>
+                <li>“Toep!” raises stakes by +1 point.</li>
+            </ul>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>🏆 Winning</h3>
+            <p>The last remaining player wins. The loser receives round points.</p>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>⚠️ Optional Rules</h3>
+            <ul class="rules-list">
+                <li><strong>OW:</strong> 2 OW → 1 penalty point</li>
+                <li><strong>CP:</strong> 4 CP → 1 penalty point</li>
+            </ul>
+        </div>
+
+        <button id="backFromRules" class="home-btn">Back</button>
+    </div>
+
+    <!-- SCOREBOARD SCREEN -->
+    <div id="scoreboardScreen" class="hidden scoreboard-screen">
+
+        <h2 class="scoreboard-title">🏆 ALL-TIME Scoreboard</h2>
+
+        <div class="scoreboard-list">
+
+            <div class="score-item glass-box first-place">
+                <span class="medal">🥇</span>
+                <span class="score-name">Max</span>
+                <span class="score-points">42 Ws</span>
+            </div>
+
+            <div class="score-item glass-box">
+                <span class="medal">🥈</span>
+                <span class="score-name">Niels</span>
+                <span class="score-points">33 Ws</span>
+            </div>
+
+            <div class="score-item glass-box">
+                <span class="medal">🥉</span>
+                <span class="score-name">Martin</span>
+                <span class="score-points">28 Ws</span>
+            </div>
+
+            <div class="score-item glass-box">
+                <span class="medal">😬</span>
+                <span class="score-name">Laurens</span>
+                <span class="score-points">Like 1 Ws?</span>
+            </div>
+
+        </div>
+
+        <button id="backFromScoreboard" class="home-btn">Back</button>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="gameScreen" class="hidden">
+
+        <section class="toggle-container">
+            <label class="toggle">
+                <input type="checkbox" id="toggleOW">
+                <span class="slider"></span>
+                <span class="toggle-label">Show Official Warning & Crying Points</span>
+            </label>
+        </section>
+
+        <section class="add-player">
+            <input id="nameInput" placeholder="Player name">
+            <button id="addBtn">Add</button>
+        </section>
+
+        <div id="warning" class="warning hidden">
+            You need at least <strong>two players</strong> to start the game.
+        </div>
+
+        <div id="playerList" class="player-list"></div>
+
+        <!-- UNDO / REDO -->
+        <div class="history-controls">
+            <button id="undoBtn" class="history-btn">⟲ Reverse</button>
+            <button id="redoBtn" class="history-btn">⟳ Forward</button>
+        </div>
+
+        <button id="resetBtn" class="reset" disabled>Reset All Scores</button>
+        <button id="resetPlayersBtn" class="reset reset-players">Reset All Players</button>
+
+    </div>
+      <!-- FIREWORKS + NEW GAME BUTTON -->
+    <div id="fireworks" class="hidden"></div>
+    <button id="newGameBtn" class="new-game-btn hidden">New Game</button>
+
+    <!-- SCRIPT LAST — FIXES ALL BUTTON ISSUES -->
+    <script src="script.js"></script>
+    </body>
+    </html>
