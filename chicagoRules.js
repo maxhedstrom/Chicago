@@ -27,6 +27,19 @@ function applyChicagoEvent(player, eventType) {
     return player;
 }
 
+function applyFyrtal(chooser, allPlayers, mode) {
+    if (mode === "nollstall") {
+        allPlayers.forEach(p => {
+            if (p.name !== chooser.name) {
+                p.score = 0;
+                p.canWin = false;
+            }
+        });
+        return;
+    }
+    applyChicagoEvent(chooser, "Fyrtal");
+}
+
 function canGoOut(player) {
     return player.canWin === true;
 }
@@ -51,12 +64,16 @@ function applyChicagoRound(players, events) {
     const allowed = chicagoCall
         ? events.filter(e => e.type === chicagoCall.type)
         : events;
-
+        
     allowed.forEach(event => {
         const player = players.find(p => p.name === event.player);
         if (!player) throw new Error("Okänd spelare: " + event.player);
-        applyChicagoEvent(player, event.type);
-    });
 
+        if (event.type === "FyrtalNollstall") {
+            applyFyrtal(player, players, "nollstall");
+        } else {
+            applyChicagoEvent(player, event.type);
+        }
+    });
     return players;
 }
