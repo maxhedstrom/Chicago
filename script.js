@@ -33,9 +33,22 @@ function saveWins() {
    HISTORY SYSTEM (Undo/Redo)
 =========================== */
 
+function snapshot() {
+    return {
+        players: JSON.parse(JSON.stringify(players)),
+        totalWins: JSON.parse(JSON.stringify(totalWins))
+    };
+}
+
+function applySnapshot(entry) {
+    players = JSON.parse(JSON.stringify(entry.players));
+    totalWins = JSON.parse(JSON.stringify(entry.totalWins));
+    saveWins();
+}
+
 function saveHistory() {
     history = history.slice(0, historyIndex + 1);
-    history.push(JSON.parse(JSON.stringify(players)));
+    history.push(snapshot());
     historyIndex = history.length - 1;
     updateUndoRedoButtons();
 }
@@ -43,8 +56,9 @@ function saveHistory() {
 function undo() {
     if (historyIndex > 0) {
         historyIndex--;
-        players = JSON.parse(JSON.stringify(history[historyIndex]));
+        applySnapshot(history[historyIndex]);
         render();
+        renderScoreboard();
     }
     updateUndoRedoButtons();
 }
@@ -52,8 +66,9 @@ function undo() {
 function redo() {
     if (historyIndex < history.length - 1) {
         historyIndex++;
-        players = JSON.parse(JSON.stringify(history[historyIndex]));
+        applySnapshot(history[historyIndex]);
         render();
+        renderScoreboard();
     }
     updateUndoRedoButtons();
 }
@@ -324,11 +339,10 @@ function updateState() {
 
 
 /* ===========================
-   SCORING LOGIC (WIN + TROPHY)
+   TOEPEN RULES
 =========================== */
 
-function changeScore(i, key, amount) {
-    const player = players[i];
+function applyToepenScore(player, key, amount) {
     player[key] += amount;
 
     if (key === "pp") {
@@ -346,25 +360,31 @@ function changeScore(i, key, amount) {
         player.score++;
     }
 
-    let deathHappened = false;
-
+    let justEliminated = false;
     if (player.score >= 15) {
         player.score = 15;
-
         if (!player.dead) {
             player.dead = true;
             player.deathFlashPlayed = false;
-            deathHappened = true;
+            justEliminated = true;
         }
     }
+    return justEliminated;
+}
 
-    if (deathHappened) {
-        const alive = players.filter(p => !p.dead);
+function getLastPlayerStanding(allPlayers) {
+    const alive = allPlayers.filter(p => !p.dead);
+    if (alive.length === 1 && allPlayers.length > 1) return alive[0];
+    return null;
+}
 
-        if (alive.length === 1 && players.length > 1) {
-            const winner = alive[0];
+function changeScore(i, key, amount) {
+    const justEliminated = applyToepenScore(players[i], key, amount);
+
+    if (justEliminated) {
+        const winner = getLastPlayerStanding(players);
+        if (winner) {
             const winKey = winner.nameKey || normalizeName(winner.name);
-
             totalWins[winKey] = (totalWins[winKey] || 0) + 1;
             saveWins();
             renderScoreboard();
@@ -373,7 +393,6 @@ function changeScore(i, key, amount) {
                 newGameBtn.classList.remove("hidden");
                 newGameBtn.style.display = "block";
             }
-
             launchFireworks();
         }
     }
