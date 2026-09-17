@@ -6,8 +6,27 @@ let players = [];
 let history = [];
 let historyIndex = -1;
 
-// Win counter (does NOT reset between rounds)
-let totalWins = {};
+const WINS_STORAGE_KEY = "toepen.totalWins.v1";
+let totalWins = loadWins();
+
+function normalizeName(value) {
+    return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function loadWins() {
+    try {
+        const raw = localStorage.getItem(WINS_STORAGE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+        return {};
+    }
+}
+
+function saveWins() {
+    localStorage.setItem(WINS_STORAGE_KEY, JSON.stringify(totalWins));
+}
 
 
 /* ===========================
@@ -53,6 +72,7 @@ function updateUndoRedoButtons() {
 document.getElementById("undoBtn").addEventListener("click", undo);
 document.getElementById("redoBtn").addEventListener("click", redo);
 
+
 /* ===========================
    FIREWORKS
 =========================== */
@@ -61,7 +81,6 @@ function launchFireworks() {
     const container = document.getElementById("fireworks");
     if (!container) return;
 
-    // Gör containern fullskärm på toppen
     container.classList.remove("hidden");
     container.style.position = "fixed";
     container.style.left = "0";
@@ -75,7 +94,6 @@ function launchFireworks() {
         const fw = document.createElement("div");
         fw.className = "firework";
 
-        // Minimal styling if CSS saknas
         fw.style.position = "absolute";
         fw.style.width = "6px";
         fw.style.height = "6px";
@@ -95,7 +113,6 @@ function launchFireworks() {
         fw.style.setProperty("--dx", dx);
         fw.style.setProperty("--dy", dy);
 
-        // enkel animation via transform + fade
         fw.animate(
             [
                 { transform: "translate(0,0)", opacity: 1 },
@@ -109,7 +126,6 @@ function launchFireworks() {
         );
 
         container.appendChild(fw);
-
         setTimeout(() => fw.remove(), 950);
     }
 
@@ -179,6 +195,7 @@ document.getElementById("rulesBtn").addEventListener("click", () => {
 document.getElementById("scoresBtn").addEventListener("click", () => {
     homeScreen.classList.add("hidden");
     scoreboardScreen.classList.remove("hidden");
+    renderScoreboard();
 });
 
 document.getElementById("backFromRules").addEventListener("click", () => {
@@ -216,20 +233,37 @@ const funnyNames = {
     "max": "Toepe King"
 };
 
+function resolvePlayer(rawName) {
+    const trimmed = String(rawName || "").trim();
+    const key = normalizeName(trimmed);
+
+    if (funnyNames[key]) {
+        return { nameKey: key, displayName: funnyNames[key] };
+    }
+
+    for (const [canonical, alias] of Object.entries(funnyNames)) {
+        if (normalizeName(alias) === key) {
+            return { nameKey: canonical, displayName: alias };
+        }
+    }
+
+    return { nameKey: key, displayName: trimmed };
+}
+
 
 /* ===========================
    ADD PLAYER
 =========================== */
 
 addBtn.addEventListener("click", () => {
-    let name = nameInput.value.trim();
-    if (!name) return;
+    const typed = nameInput.value.trim();
+    if (!typed) return;
 
-    const key = name.toLowerCase();
-    if (funnyNames[key]) name = funnyNames[key];
+    const resolved = resolvePlayer(typed);
 
     players.push({
-        name,
+        name: resolved.displayName,
+        nameKey: resolved.nameKey,
         score: 0,
         pp: 0,
         ow: 0,
@@ -294,29 +328,24 @@ function updateState() {
 =========================== */
 
 function changeScore(i, key, amount) {
-
     const player = players[i];
     player[key] += amount;
 
-    // PP loops 0 → 1 → 2 → 0
     if (key === "pp") {
         if (player.pp > 2) player.pp = 0;
         if (player.pp < 0) player.pp = 2;
     }
 
-    // CP rule: 4 CP → +1 score
     if (player.cp >= 4) {
         player.cp = 0;
         player.score++;
     }
 
-    // OW rule: 2 OW → +1 score
     if (player.ow >= 2) {
         player.ow = 0;
         player.score++;
     }
 
-    // Detect death
     let deathHappened = false;
 
     if (player.score >= 15) {
@@ -329,29 +358,75 @@ function changeScore(i, key, amount) {
         }
     }
 
-    // WINNER CHECK – direkt när någon dör
     if (deathHappened) {
         const alive = players.filter(p => !p.dead);
 
         if (alive.length === 1 && players.length > 1) {
             const winner = alive[0];
+            const winKey = winner.nameKey || normalizeName(winner.name);
 
-            // Trophy uppdatering
-            totalWins[winner.name] = (totalWins[winner.name] || 0) + 1;
+            totalWins[winKey] = (totalWins[winKey] || 0) + 1;
+            saveWins();
+            renderScoreboard();
 
-            // Visa New Game-knappen, oavsett CSS
             if (newGameBtn) {
                 newGameBtn.classList.remove("hidden");
                 newGameBtn.style.display = "block";
             }
 
-            // Fyrverkerier
             launchFireworks();
         }
     }
 
     saveHistory();
     render();
+}
+
+
+/* ===========================
+   SCOREBOARD
+=========================== */
+
+function renderScoreboard() {
+    const list = document.getElementById("scoreboardList");
+    if (!list) return;
+
+    list.innerHTML = "";
+
+    const rows = Object.entries(totalWins)
+        .filter(([, wins]) => Number(wins) > 0)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+    if (rows.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "scoreboard-empty";
+        empty.textContent = "No games recorded yet.";
+        list.appendChild(empty);
+        return;
+    }
+
+    const medals = ["🥇", "🥈", "🥉"];
+
+    rows.forEach(([nameKey, wins], index) => {
+        const item = document.createElement("div");
+        item.className = "score-item glass-box";
+        if (index === 0) item.classList.add("first-place");
+
+        const medal = document.createElement("span");
+        medal.className = "medal";
+        medal.textContent = medals[index] || `${index + 1}.`;
+
+        const name = document.createElement("span");
+        name.className = "score-name";
+        name.textContent = funnyNames[nameKey] || nameKey;
+
+        const points = document.createElement("span");
+        points.className = "score-points";
+        points.textContent = `${wins} Ws`;
+
+        item.append(medal, name, points);
+        list.appendChild(item);
+    });
 }
 
 
@@ -368,17 +443,13 @@ function render() {
         div.className = "player";
 
         const disableClass = p.dead ? "disabled" : "";
-
-        // Trophy display
-        const wins = totalWins[p.name] || 0;
+        const wins = totalWins[p.nameKey || normalizeName(p.name)] || 0;
         const trophyHTML = wins > 0 ? ` <span class="trophy">🏆 x${wins}</span>` : "";
 
-        // Danger warning vid 14
         const dangerHTML = (p.score === 14 && !p.dead)
             ? `<div class="danger-text">⚠️ One point from getting smoked!</div>`
             : "";
 
-        // Death overlay
         let deathHTML = "";
         if (p.dead) {
             deathHTML = `
@@ -391,7 +462,6 @@ function render() {
             p.deathFlashPlayed = true;
         }
 
-        // Extra OW/CP
         let extrasSection = "";
         if (showExtras) {
             extrasSection = `
@@ -456,18 +526,16 @@ function render() {
    DISABLE DOUBLE TAP ZOOM
 =========================== */
 
-// Stoppar double-tap zoom men låter snabb spam fungera
 let lastTouch = 0;
 
 document.addEventListener("touchstart", function (e) {
     const now = Date.now();
     if (now - lastTouch <= 300) {
-        e.preventDefault(); // stoppa zoom
+        e.preventDefault();
     }
     lastTouch = now;
 }, { passive: false });
 
-// Stoppa pinch-zoom helt
 document.addEventListener("gesturestart", function (e) {
     e.preventDefault();
 }, { passive: false });
