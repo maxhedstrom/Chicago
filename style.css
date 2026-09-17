@@ -193,6 +193,11 @@ body {
     margin-bottom: 25px;
 }
 
+.scoreboard-empty {
+    color: #6b7280;
+    font-weight: 500;
+    padding: 16px;
+}
 /* Score items */
 .score-item {
     display: flex;
