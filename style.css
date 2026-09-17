@@ -608,3 +608,7 @@ body {
     user-select: none;
     pointer-events: none; /* stör aldrig knappar */
 }
+/* Chicago CSS */
+.chicago-selected { outline: 2px solid #2563eb; }
+.chicago-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chicago-actions button { padding: 8px 12px; border-radius: 10px; border: 1px solid #d1d5db; background: #fff; }

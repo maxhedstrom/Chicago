@@ -28,7 +28,7 @@
             <button id="startBtn" class="home-btn start">Start Game</button>
             <button id="rulesBtn" class="home-btn rules">Rules</button>
             <button id="scoresBtn" class="home-btn scores">Scoreboard</button>
-
+            <button id="chicagoBtn" class="home-btn">Chicago</button>
             <div class="version-tag">Version 1.0.2</div>
 
         </div>
@@ -102,7 +102,38 @@
         <button id="backFromScoreboard" class="home-btn">Back</button>
     </div>
 
-    <!-- GAME SCREEN -->
+    <!-- CHICAGO GAME SCREEN -->
+     <div id="chicagoScreen" class="hidden">
+    <button id="backFromChicago" class="home-btn">Back</button>
+    <h2>Chicago</h2>
+    <p>Välj spelare, slå sedan en händelse.</p>
+
+    <section class="add-player">
+        <input id="chicagoNameInput" placeholder="Player name">
+        <button id="chicagoAddBtn">Add</button>
+    </section>
+
+    <div id="chicagoPlayerList" class="player-list"></div>
+
+    <div class="chicago-actions">
+        <button data-chicago-event="Par">Par</button>
+        <button data-chicago-event="TvaPar">Två par</button>
+        <button data-chicago-event="Triss">Triss</button>
+        <button data-chicago-event="Stege">Stege</button>
+        <button data-chicago-event="Farg">Färg</button>
+        <button data-chicago-event="Kak">Kåk</button>
+        <button data-chicago-event="Fyrtal">Fyrtal +8</button>
+        <button data-chicago-event="FyrtalNollstall">Fyrtal nollställ</button>
+        <button data-chicago-event="Fargstege">Färgstege</button>
+        <button data-chicago-event="RoyalFlush">Royal Flush</button>
+        <button data-chicago-event="Utspel">Utspel</button>
+        <button data-chicago-event="ChicagoLyckad">Chicago +15</button>
+        <button data-chicago-event="ChicagoMisslyckad">Chicago −15</button>
+        <button data-chicago-event="RoyalStraightFlush">Royal Straight Flush</button>
+    </div>
+    </div>
+
+    <!-- TOEPEN GAME SCREEN -->
     <div id="gameScreen" class="hidden">
 
         <section class="toggle-container">
@@ -140,6 +171,7 @@
 
     <!-- SCRIPT LAST — FIXES ALL BUTTON ISSUES -->
      <script src="chicagoRules.js"></script>
+     <script src="chicagoUi.js"></script>
      <script src="script.js"></script>
     </body>
     </html>
