@@ -10,6 +10,16 @@ const chicagoPlayerList = document.getElementById("chicagoPlayerList");
 const chicagoNameInput = document.getElementById("chicagoNameInput");
 const chicagoWinnerBanner = document.getElementById("chicagoWinnerBanner");
 
+function extraHandsOn() {
+    const el = document.getElementById("toggleChicagoHands");
+    return Boolean(el && el.checked);
+}
+
+function syncExtraHands() {
+    renderChicago();
+}
+
+
 function chicagoSnapshot() {
     return {
         players: JSON.parse(JSON.stringify(chicagoPlayers)),
@@ -125,6 +135,10 @@ function renderChicago() {
         scores.appendChild(scoreGroup(p, "Utspel", "+5", 5, "pp", locked));
         div.appendChild(scores);
 
+        if (extraHandsOn()) {
+            div.appendChild(playerHandsMenu(p, locked));
+        }
+
         if (p.canWin && p.name !== chicagoWinner) {
             const go = document.createElement("button");
             go.className = "chicago-go-out";
@@ -150,6 +164,40 @@ function renderChicago() {
 
         chicagoPlayerList.appendChild(div);
     });
+}
+
+
+
+const HAND_EVENTS = [
+    ["TvaPar", "Två par +2"],
+    ["Triss", "Triss +3"],
+    ["Stege", "Stege +4"],
+    ["Farg", "Färg +5"],
+    ["Kak", "Kåk +6"],
+    ["Fyrtal", "Fyrtal +8"],
+    ["FyrtalNollstall", "Fyrtal nollställ"],
+    ["Fargstege", "Färgstege +11"],
+    ["RoyalFlush", "Royal Flush +20"],
+    ["ChicagoLyckad", "Chicago +15"],
+    ["ChicagoMisslyckad", "Chicago −15"],
+    ["RoyalStraightFlush", "Royal Straight Flush"]
+];
+
+function playerHandsMenu(player, locked) {
+    const wrap = document.createElement("div");
+    wrap.className = "chicago-player-menu";
+    HAND_EVENTS.forEach(([type, label]) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label;
+        btn.disabled = locked;
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            applyNamedEvent(player, type);
+        });
+        wrap.appendChild(btn);
+    });
+    return wrap;
 }
 
 function scoreGroup(player, label, plusLabel, delta, extraClass, locked) {
@@ -257,3 +305,10 @@ document.getElementById("chicagoResetPlayersBtn").addEventListener("click", () =
     saveChicagoHistory();
     renderChicago();
 });
+
+
+const toggleChicagoHands = document.getElementById("toggleChicagoHands");
+if (toggleChicagoHands) {
+    toggleChicagoHands.addEventListener("change", syncExtraHands);
+    syncExtraHands();
+}

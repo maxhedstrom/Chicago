@@ -612,3 +612,36 @@ body {
 .chicago-selected { outline: 2px solid #2563eb; }
 .chicago-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .chicago-actions button { padding: 8px 12px; border-radius: 10px; border: 1px solid #d1d5db; background: #fff; }
+
+
+.chicago-screen { padding-bottom: 40px; }
+.chicago-title { font-size: 2rem; font-weight: 800; margin: 0 0 12px; }
+.chicago-card-header { display: flex; justify-content: space-between; align-items: baseline; }
+.chicago-score { font-size: 2rem; font-weight: 800; color: #2563eb; line-height: 1; }
+.chicago-selected { outline: 3px solid #2563eb; }
+.chicago-winner { outline: 3px solid #16a34a; }
+.chicago-go-out {
+    margin-top: 10px; width: 100%; padding: 12px; border: none;
+    border-radius: 12px; background: #111827; color: white; font-weight: 700;
+}
+.chicago-winner-banner {
+    background: #111827; color: white; text-align: center;
+    padding: 12px; border-radius: 12px; font-weight: 700; margin-bottom: 12px;
+}
+.chicago-back {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; padding: 0; margin-bottom: 8px;
+    border: none; border-radius: 10px; background: #f3f4f6;
+    color: #111827; font-size: 1.1rem; cursor: pointer;
+}
+.chicago-player-menu {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 12px;
+}
+.chicago-player-menu button {
+    padding: 10px 8px; min-height: 42px; border-radius: 12px;
+    border: none; background: #f3f4f6; color: #111827;
+    font-size: 0.82rem; font-weight: 600; cursor: pointer;
+}
+.chicago-player-menu button:active { transform: scale(0.98); background: #e5e7eb; }
+.danger-text { color: #b45309; font-weight: 600; font-size: 0.9rem; margin: 4px 0 10px; }

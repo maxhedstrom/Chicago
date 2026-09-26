@@ -1,21 +1,20 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <style>
-        /* Stoppar iOS pinch-zoom */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
         html, body {
-            touch-action: manipulation; 
+            touch-action: manipulation;
         }
-            </style>
-        <title>Toepen Scorekeeper</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="manifest" href="manifest.js  ">
-        <meta name="theme-color" content="#ffffff">
-    </head>
+    </style>
+    <title>Toepen Scorekeeper</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+</head>
 
-    <body>
+<body>
 
     <!-- HOME SCREEN -->
     <div id="homeScreen" class="home-screen">
@@ -29,8 +28,7 @@
             <button id="rulesBtn" class="home-btn rules">Rules</button>
             <button id="scoresBtn" class="home-btn scores">Scoreboard</button>
             <button id="chicagoBtn" class="home-btn">Chicago</button>
-            <div class="version-tag">Version 1.0.2</div>
-
+            <div class="version-tag">Version 1.0.3</div>
         </div>
     </div>
 
@@ -99,45 +97,34 @@
 
     <!-- CHICAGO GAME SCREEN -->
     <div id="chicagoScreen" class="hidden chicago-screen">
-    <button id="backFromChicago" class="home-btn">Back</button>
-    <h2 class="chicago-title">Chicago</h2>
-    <p class="chicago-hint">Tryck på en spelare, slå sedan poäng. Först till 52 kan gå ut.</p>
+        <button id="backFromChicago" class="chicago-back" aria-label="Back">←</button>
+        <h2 class="chicago-title">Chicago</h2>
 
-    <div id="chicagoWinnerBanner" class="chicago-winner-banner hidden"></div>
+        <div id="chicagoWinnerBanner" class="chicago-winner-banner hidden"></div>
 
-    <section class="add-player">
-        <input id="chicagoNameInput" placeholder="Player name">
-        <button id="chicagoAddBtn">Add</button>
-    </section>
+        <section class="add-player">
+            <input id="chicagoNameInput" placeholder="Player name">
+            <button id="chicagoAddBtn">Add</button>
+        </section>
 
-    <div id="chicagoPlayerList" class="player-list"></div>
+        <div id="chicagoPlayerList" class="player-list"></div>
 
-    <div class="history-controls">
-        <button id="chicagoUndoBtn" class="history-btn">⟲ Reverse</button>
-        <button id="chicagoRedoBtn" class="history-btn">⟳ Forward</button>
+        <div class="history-controls">
+            <button id="chicagoUndoBtn" class="history-btn">⟲ Reverse</button>
+            <button id="chicagoRedoBtn" class="history-btn">⟳ Forward</button>
+        </div>
+
+        <section class="toggle-container">
+            <label class="toggle">
+                <input type="checkbox" id="toggleChicagoHands">
+                <span class="slider"></span>
+                <span class="toggle-label">Show Points Menu</span>
+            </label>
+        </section>
+
+        <button id="chicagoNewGameBtn" class="reset">New Game</button>
+        <button id="chicagoResetPlayersBtn" class="reset reset-players">Reset All Players</button>
     </div>
-
-    <div class="chicago-actions">
-        <div class="chicago-actions-label">Hand</div>
-        <button data-chicago-event="TvaPar">Två par +2</button>
-        <button data-chicago-event="Triss">Triss +3</button>
-        <button data-chicago-event="Stege">Stege +4</button>
-        <button data-chicago-event="Farg">Färg +5</button>
-        <button data-chicago-event="Kak">Kåk +6</button>
-        <button data-chicago-event="Fyrtal">Fyrtal +8</button>
-        <button data-chicago-event="FyrtalNollstall">Fyrtal nollställ</button>
-        <button data-chicago-event="Fargstege">Färgstege +11</button>
-        <button data-chicago-event="RoyalFlush">Royal Flush +20</button>
-
-        <div class="chicago-actions-label">Chicago</div>
-        <button data-chicago-event="ChicagoLyckad">Chicago +15</button>
-        <button data-chicago-event="ChicagoMisslyckad">Chicago −15</button>
-        <button data-chicago-event="RoyalStraightFlush">Royal Straight Flush</button>
-    </div>
-
-    <button id="chicagoNewGameBtn" class="reset">New Game</button>
-    <button id="chicagoResetPlayersBtn" class="reset reset-players">Reset All Players</button>
-</div>
 
     <!-- TOEPEN GAME SCREEN -->
     <div id="gameScreen" class="hidden">
@@ -161,7 +148,6 @@
 
         <div id="playerList" class="player-list"></div>
 
-        <!-- UNDO / REDO -->
         <div class="history-controls">
             <button id="undoBtn" class="history-btn">⟲ Reverse</button>
             <button id="redoBtn" class="history-btn">⟳ Forward</button>
@@ -169,15 +155,13 @@
 
         <button id="resetBtn" class="reset" disabled>Reset All Scores</button>
         <button id="resetPlayersBtn" class="reset reset-players">Reset All Players</button>
-
     </div>
-      <!-- FIREWORKS + NEW GAME BUTTON -->
+
     <div id="fireworks" class="hidden"></div>
     <button id="newGameBtn" class="new-game-btn hidden">New Game</button>
 
-    <!-- SCRIPT LAST — FIXES ALL BUTTON ISSUES -->
-     <script src="chicagoRules.js"></script>
-     <script src="chicagoUi.js"></script>
-     <script src="script.js"></script>
-    </body>
-    </html>
+    <script src="chicagoRules.js"></script>
+    <script src="chicagoUi.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
