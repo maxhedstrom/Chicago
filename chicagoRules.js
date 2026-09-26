@@ -17,6 +17,11 @@ function createChicagoPlayer(name) {
 }
 
 function applyChicagoEvent(player, eventType) {
+    if (eventType === "RoyalStraightFlush") {
+        player.canWin = true;
+        return player;
+    }
+
     if (eventType === "Utspel") player.score += 5;
     else if (eventType === "ChicagoLyckad") player.score += 15;
     else if (eventType === "ChicagoMisslyckad") player.score -= 15;
@@ -25,19 +30,6 @@ function applyChicagoEvent(player, eventType) {
 
     player.canWin = player.score >= CHICAGO_TARGET;
     return player;
-}
-
-function applyFyrtal(chooser, allPlayers, mode) {
-    if (mode === "nollstall") {
-        allPlayers.forEach(p => {
-            if (p.name !== chooser.name) {
-                p.score = 0;
-                p.canWin = false;
-            }
-        });
-        return;
-    }
-    applyChicagoEvent(chooser, "Fyrtal");
 }
 
 function canGoOut(player) {
@@ -56,6 +48,19 @@ function applyRoyalStraightFlush(player) {
     return { ok: true, winner: player.name };
 }
 
+function applyFyrtal(chooser, allPlayers, mode) {
+    if (mode === "nollstall") {
+        allPlayers.forEach(p => {
+            if (p.name !== chooser.name) {
+                p.score = 0;
+                p.canWin = false;
+            }
+        });
+        return;
+    }
+    applyChicagoEvent(chooser, "Fyrtal");
+}
+
 function applyChicagoRound(players, events) {
     const chicagoCall = events.find(e =>
         e.type === "ChicagoLyckad" || e.type === "ChicagoMisslyckad"
@@ -64,7 +69,7 @@ function applyChicagoRound(players, events) {
     const allowed = chicagoCall
         ? events.filter(e => e.type === chicagoCall.type)
         : events;
-        
+
     allowed.forEach(event => {
         const player = players.find(p => p.name === event.player);
         if (!player) throw new Error("Okänd spelare: " + event.player);
@@ -75,5 +80,6 @@ function applyChicagoRound(players, events) {
             applyChicagoEvent(player, event.type);
         }
     });
+
     return players;
 }

@@ -98,10 +98,12 @@
     </div>
 
     <!-- CHICAGO GAME SCREEN -->
-     <div id="chicagoScreen" class="hidden">
+    <div id="chicagoScreen" class="hidden chicago-screen">
     <button id="backFromChicago" class="home-btn">Back</button>
-    <h2>Chicago</h2>
-    <p>Välj spelare, slå sedan en händelse.</p>
+    <h2 class="chicago-title">Chicago</h2>
+    <p class="chicago-hint">Tryck på en spelare, slå sedan poäng. Först till 52 kan gå ut.</p>
+
+    <div id="chicagoWinnerBanner" class="chicago-winner-banner hidden"></div>
 
     <section class="add-player">
         <input id="chicagoNameInput" placeholder="Player name">
@@ -110,23 +112,32 @@
 
     <div id="chicagoPlayerList" class="player-list"></div>
 
+    <div class="history-controls">
+        <button id="chicagoUndoBtn" class="history-btn">⟲ Reverse</button>
+        <button id="chicagoRedoBtn" class="history-btn">⟳ Forward</button>
+    </div>
+
     <div class="chicago-actions">
-        <button data-chicago-event="Par">Par</button>
-        <button data-chicago-event="TvaPar">Två par</button>
-        <button data-chicago-event="Triss">Triss</button>
-        <button data-chicago-event="Stege">Stege</button>
-        <button data-chicago-event="Farg">Färg</button>
-        <button data-chicago-event="Kak">Kåk</button>
+        <div class="chicago-actions-label">Hand</div>
+        <button data-chicago-event="TvaPar">Två par +2</button>
+        <button data-chicago-event="Triss">Triss +3</button>
+        <button data-chicago-event="Stege">Stege +4</button>
+        <button data-chicago-event="Farg">Färg +5</button>
+        <button data-chicago-event="Kak">Kåk +6</button>
         <button data-chicago-event="Fyrtal">Fyrtal +8</button>
         <button data-chicago-event="FyrtalNollstall">Fyrtal nollställ</button>
-        <button data-chicago-event="Fargstege">Färgstege</button>
-        <button data-chicago-event="RoyalFlush">Royal Flush</button>
-        <button data-chicago-event="Utspel">Utspel</button>
+        <button data-chicago-event="Fargstege">Färgstege +11</button>
+        <button data-chicago-event="RoyalFlush">Royal Flush +20</button>
+
+        <div class="chicago-actions-label">Chicago</div>
         <button data-chicago-event="ChicagoLyckad">Chicago +15</button>
         <button data-chicago-event="ChicagoMisslyckad">Chicago −15</button>
         <button data-chicago-event="RoyalStraightFlush">Royal Straight Flush</button>
     </div>
-    </div>
+
+    <button id="chicagoNewGameBtn" class="reset">New Game</button>
+    <button id="chicagoResetPlayersBtn" class="reset reset-players">Reset All Players</button>
+</div>
 
     <!-- TOEPEN GAME SCREEN -->
     <div id="gameScreen" class="hidden">
