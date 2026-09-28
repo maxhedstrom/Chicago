@@ -197,6 +197,35 @@ const scoreboardScreen = document.getElementById("scoreboardScreen");
    NAVIGATION
 =========================== */
 
+
+function showScreen(id) {
+    ["landingScreen","homeScreen","chicagoHubScreen","aboutScreen","chicagoRulesScreen","chicagoScoreboardScreen","chicagoScreen","gameScreen","rulesScreen","scoreboardScreen"].forEach(name => {
+        const el = document.getElementById(name);
+        if (el) el.classList.toggle("hidden", name !== id);
+    });
+}
+
+document.getElementById("openToepenBtn").addEventListener("click", () => {
+    document.getElementById("landingScreen").classList.add("hidden");
+    document.getElementById("homeScreen").classList.remove("hidden");
+});
+document.getElementById("openChicagoHubBtn").addEventListener("click", () => {
+    document.getElementById("landingScreen").classList.add("hidden");
+    document.getElementById("chicagoHubScreen").classList.remove("hidden");
+});
+document.getElementById("openAboutBtn").addEventListener("click", () => {
+    document.getElementById("landingScreen").classList.add("hidden");
+    document.getElementById("aboutScreen").classList.remove("hidden");
+});
+document.getElementById("backToLandingFromToepen").addEventListener("click", () => {
+    document.getElementById("homeScreen").classList.add("hidden");
+    document.getElementById("landingScreen").classList.remove("hidden");
+});
+document.getElementById("backFromAbout").addEventListener("click", () => {
+    document.getElementById("aboutScreen").classList.add("hidden");
+    document.getElementById("landingScreen").classList.remove("hidden");
+});
+
 document.getElementById("startBtn").addEventListener("click", () => {
     homeScreen.classList.add("hidden");
     gameScreen.classList.remove("hidden");

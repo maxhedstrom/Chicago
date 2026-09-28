@@ -1,4 +1,3 @@
-
 let chicagoPlayers = [];
 let chicagoSelected = null;
 let chicagoWinner = null;
@@ -250,7 +249,7 @@ function newChicagoGame() {
 }
 
 document.getElementById("chicagoBtn").addEventListener("click", () => {
-    document.getElementById("homeScreen").classList.add("hidden");
+    document.getElementById("chicagoHubScreen").classList.add("hidden");
     chicagoScreen.classList.remove("hidden");
     if (chicagoHistory.length === 0) saveChicagoHistory();
     renderChicago();
@@ -258,7 +257,29 @@ document.getElementById("chicagoBtn").addEventListener("click", () => {
 
 document.getElementById("backFromChicago").addEventListener("click", () => {
     chicagoScreen.classList.add("hidden");
-    document.getElementById("homeScreen").classList.remove("hidden");
+    document.getElementById("chicagoHubScreen").classList.remove("hidden");
+});
+
+document.getElementById("backToLandingFromChicago").addEventListener("click", () => {
+    document.getElementById("chicagoHubScreen").classList.add("hidden");
+    document.getElementById("landingScreen").classList.remove("hidden");
+});
+
+document.getElementById("chicagoRulesBtn").addEventListener("click", () => {
+    document.getElementById("chicagoHubScreen").classList.add("hidden");
+    document.getElementById("chicagoRulesScreen").classList.remove("hidden");
+});
+document.getElementById("backFromChicagoRules").addEventListener("click", () => {
+    document.getElementById("chicagoRulesScreen").classList.add("hidden");
+    document.getElementById("chicagoHubScreen").classList.remove("hidden");
+});
+document.getElementById("chicagoScoresBtn").addEventListener("click", () => {
+    document.getElementById("chicagoHubScreen").classList.add("hidden");
+    document.getElementById("chicagoScoreboardScreen").classList.remove("hidden");
+});
+document.getElementById("backFromChicagoScores").addEventListener("click", () => {
+    document.getElementById("chicagoScoreboardScreen").classList.add("hidden");
+    document.getElementById("chicagoHubScreen").classList.remove("hidden");
 });
 
 document.getElementById("chicagoAddBtn").addEventListener("click", () => {
