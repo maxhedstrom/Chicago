@@ -1,37 +1,95 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <style>
-        /* Stoppar iOS pinch-zoom */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
         html, body {
-            touch-action: manipulation; 
+            touch-action: manipulation;
         }
-            </style>
-        <title>Toepen Scorekeeper</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="manifest" href="manifest.js  ">
-        <meta name="theme-color" content="#ffffff">
-    </head>
+    </style>
+    <title>Toepen Scorekeeper</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+</head>
 
-    <body>
+<body>
 
-    <!-- HOME SCREEN -->
-    <div id="homeScreen" class="home-screen">
+    <!-- LANDING -->
+    <div id="landingScreen" class="home-screen">
+        <img src="cards-pins.jpg" class="card-img">
+        <h1 class="home-title">Game Night</h1>
+        <p class="home-subtitle">Choose a game</p>
+        <div class="home-buttons">
+            <button id="openToepenBtn" class="home-btn start">Toepen</button>
+            <button id="openChicagoHubBtn" class="home-btn chicago-book">Chicago-boken</button>
+            <button id="openAboutBtn" class="home-btn scores">Why?</button>
+            <div class="version-tag">Version 1.1.0</div>
+        </div>
+    </div>
+
+    <!-- TOEPEN HUB -->
+    <div id="homeScreen" class="home-screen hidden">
+        <button id="backToLandingFromToepen" class="page-back" aria-label="Back">←</button>
         <img src="Flag-Pins-Netherlands-Sweden.jpg" class="flag-img">
-
         <h1 class="home-title">Toepen</h1>
         <p class="home-subtitle">The Ultimate Scorekeeper</p>
-
         <div class="home-buttons">
             <button id="startBtn" class="home-btn start">Start Game</button>
             <button id="rulesBtn" class="home-btn rules">Rules</button>
             <button id="scoresBtn" class="home-btn scores">Scoreboard</button>
-
-            <div class="version-tag">Version 1.0.2</div>
-
         </div>
+    </div>
+
+    <!-- CHICAGO HUB -->
+<div id="chicagoHubScreen" class="hidden chicago-hub">
+    <button type="button" id="backToLandingFromChicago" class="page-back page-back-light">←</button>
+    <div class="chicago-poster-wrap">
+        <img src="chicago-bg.png" alt="Chicago-boken" class="chicago-poster">
+    </div>
+    <div class="chicago-hub-actions">
+        <button type="button" id="chicagoBtn" class="hub-btn">Starta spel</button>
+        <button type="button" id="chicagoRulesBtn" class="hub-btn">Regler</button>
+        <button type="button" id="chicagoScoresBtn" class="hub-btn">Scoreboard</button>
+    </div>
+</div>
+
+    <!-- ABOUT -->
+    <div id="aboutScreen" class="hidden rules-screen">
+        <div class="rules-card glass-box">
+            <h2 class="rules-title">About</h2>
+            <p>Scorekeeper for Toepen and Chicago. Built for game night, no account needed at the table.</p>
+            <p>Work in progress... A lot of updates is inbound</p>
+        </div>
+        <button id="backFromAbout" class="page-back" aria-label="Back">←</button>
+    </div>
+
+    <!-- CHICAGO RULES -->
+    <div id="chicagoRulesScreen" class="hidden rules-screen chicago-hero">
+        <div class="rules-card glass-box">
+            <h2 class="rules-title">Chicago</h2>
+            <p>Först till 52 kan gå ut. Sista stick efter 52 vinner — tryck Gå ut.</p>
+        </div>
+        <div class="rules-card glass-box">
+            <h3>Poäng</h3>
+            <ul class="rules-list">
+                <li>Par +1, Utspel +5</li>
+                <li>Två par +2, Triss +3, Stege +4, Färg +5, Kåk +6</li>
+                <li>Fyrtal +8 eller nollställ övriga</li>
+                <li>Färgstege +11, Royal Flush +20</li>
+                <li>Chicago +15 / −15</li>
+                <li>Royal Straight Flush vinner direkt</li>
+            </ul>
+        </div>
+        <button id="backFromChicagoRules" class="page-back" aria-label="Back">←</button>
+    </div>
+
+    <!-- CHICAGO SCOREBOARD PLACEHOLDER -->
+    <div id="chicagoScoreboardScreen" class="hidden scoreboard-screen chicago-hero">
+        <h2 class="scoreboard-title">Chicago Scoreboard</h2>
+        <p class="chicago-hint">Lokal tavla kommer i nästa verision.</p>
+        <button id="backFromChicagoScores" class="page-back" aria-label="Back">←</button>
     </div>
 
     <!-- RULES SCREEN -->
@@ -87,47 +145,50 @@
             </ul>
         </div>
 
-        <button id="backFromRules" class="home-btn">Back</button>
+        <button id="backFromRules" class="page-back" aria-label="Back">←</button>
     </div>
 
     <!-- SCOREBOARD SCREEN -->
     <div id="scoreboardScreen" class="hidden scoreboard-screen">
-
         <h2 class="scoreboard-title">🏆 ALL-TIME Scoreboard</h2>
-
-        <div class="scoreboard-list">
-
-            <div class="score-item glass-box first-place">
-                <span class="medal">🥇</span>
-                <span class="score-name">Max</span>
-                <span class="score-points">42 Ws</span>
-            </div>
-
-            <div class="score-item glass-box">
-                <span class="medal">🥈</span>
-                <span class="score-name">Niels</span>
-                <span class="score-points">33 Ws</span>
-            </div>
-
-            <div class="score-item glass-box">
-                <span class="medal">🥉</span>
-                <span class="score-name">Martin</span>
-                <span class="score-points">28 Ws</span>
-            </div>
-
-            <div class="score-item glass-box">
-                <span class="medal">😬</span>
-                <span class="score-name">Laurens</span>
-                <span class="score-points">Like 1 Ws?</span>
-            </div>
-
-        </div>
-
-        <button id="backFromScoreboard" class="home-btn">Back</button>
+        <div id="scoreboardList" class="scoreboard-list"></div>
+        <button id="backFromScoreboard" class="page-back" aria-label="Back">←</button>
     </div>
 
-    <!-- GAME SCREEN -->
+    <!-- CHICAGO GAME SCREEN -->
+    <div id="chicagoScreen" class="hidden chicago-screen chicago-hero">
+        <button id="backFromChicago" class="page-back" aria-label="Back">←</button>
+        <h2 class="chicago-title">Chicago</h2>
+
+        <div id="chicagoWinnerBanner" class="chicago-winner-banner hidden"></div>
+
+        <section class="add-player">
+            <input id="chicagoNameInput" placeholder="Player name">
+            <button id="chicagoAddBtn">Add</button>
+        </section>
+
+        <div id="chicagoPlayerList" class="player-list"></div>
+
+        <div class="history-controls">
+            <button id="chicagoUndoBtn" class="history-btn">⟲ Reverse</button>
+            <button id="chicagoRedoBtn" class="history-btn">⟳ Forward</button>
+        </div>
+
+        <section class="toggle-container">
+            <label class="toggle">
+                <input type="checkbox" id="toggleChicagoHands">
+                <span class="slider"></span>
+                <span class="toggle-label">Show Points Menu</span>
+            </label>
+        </section>
+
+        <button id="chicagoNewGameBtn" class="reset">New Game</button>
+        <button id="chicagoResetPlayersBtn" class="reset reset-players">Reset All Players</button>
+    </div>
+
+    <!-- TOEPEN GAME SCREEN -->
     <div id="gameScreen" class="hidden">
+        <button id="backFromGame" class="page-back" aria-label="Back">←</button>
 
         <section class="toggle-container">
             <label class="toggle">
@@ -148,7 +209,6 @@
 
         <div id="playerList" class="player-list"></div>
 
-        <!-- UNDO / REDO -->
         <div class="history-controls">
             <button id="undoBtn" class="history-btn">⟲ Reverse</button>
             <button id="redoBtn" class="history-btn">⟳ Forward</button>
@@ -156,13 +216,13 @@
 
         <button id="resetBtn" class="reset" disabled>Reset All Scores</button>
         <button id="resetPlayersBtn" class="reset reset-players">Reset All Players</button>
-
     </div>
-      <!-- FIREWORKS + NEW GAME BUTTON -->
+
     <div id="fireworks" class="hidden"></div>
     <button id="newGameBtn" class="new-game-btn hidden">New Game</button>
 
-    <!-- SCRIPT LAST — FIXES ALL BUTTON ISSUES -->
+    <script src="chicagoRules.js"></script>
+    <script src="chicagoUi.js"></script>
     <script src="script.js"></script>
-    </body>
-    </html>
+</body>
+</html>

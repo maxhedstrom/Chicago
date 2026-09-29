@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600&display=swap");
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Outfit, system-ui, sans-serif;
+    background: #1c1917;
+    color: #f5f0e8;
+}
+
+.grain {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 72px 22px 96px;
+}
+
+.eyebrow {
+    margin: 0 0 14px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: #e8b298;
+}
+
+h1 {
+    font-family: Fraunces, Georgia, serif;
+    font-size: clamp(2.3rem, 8vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.05;
+    margin: 0 0 16px;
+}
+
+.lead {
+    margin: 0 0 40px;
+    max-width: 26rem;
+    color: #a8a29e;
+    line-height: 1.6;
+}
+
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: wish;
+}
+
+.item {
+    counter-increment: wish;
+    position: relative;
+    padding: 22px 8px 22px 72px;
+    border-top: 1px solid rgba(245, 240, 232, 0.12);
+}
+
+.item:last-child { border-bottom: 1px solid rgba(245, 240, 232, 0.12); }
+
+.item::before {
+    content: counter(wish, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 24px;
+    font-family: Fraunces, serif;
+    font-size: 1.1rem;
+    color: #e8b298;
+}
+
+.item h2 {
+    font-family: Fraunces, serif;
+    font-size: 1.45rem;
+    font-weight: 500;
+    margin: 0 0 8px;
+}
+
+.item p {
+    margin: 0;
+    color: #a8a29e;
+    line-height: 1.5;
+}
+
+.item a {
+    display: inline-block;
+    margin-top: 12px;
+    color: #f5f0e8;
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e8b298;
+    padding-bottom: 2px;
+}
+
+.item a:hover { color: #e8b298; }
+
+.empty { color: #a8a29e; }
+.hidden { display: none; }
+
+footer {
+    margin-top: 48px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #57534e;
+}
