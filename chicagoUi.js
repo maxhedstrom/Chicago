@@ -9,6 +9,61 @@ const chicagoPlayerList = document.getElementById("chicagoPlayerList");
 const chicagoNameInput = document.getElementById("chicagoNameInput");
 const chicagoWinnerBanner = document.getElementById("chicagoWinnerBanner");
 
+
+const CHICAGO_WINS_KEY = "chicago.totalWins.v1";
+let chicagoWins = loadChicagoWins();
+
+function chicagoNameKey(name) {
+    return String(name || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function loadChicagoWins() {
+    try {
+        const raw = localStorage.getItem(CHICAGO_WINS_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+        return {};
+    }
+}
+
+function saveChicagoWins() {
+    localStorage.setItem(CHICAGO_WINS_KEY, JSON.stringify(chicagoWins));
+}
+
+function recordChicagoWin(name) {
+    const key = chicagoNameKey(name);
+    if (!key) return;
+    chicagoWins[key] = (chicagoWins[key] || 0) + 1;
+    saveChicagoWins();
+    renderChicagoScoreboard();
+}
+
+function renderChicagoScoreboard() {
+    const list = document.getElementById("chicagoScoreboardList");
+    if (!list) return;
+    list.innerHTML = "";
+    const rows = Object.entries(chicagoWins)
+        .filter(([name, wins]) => name && Number(wins) > 0)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "sv"));
+    if (!rows.length) {
+        list.innerHTML = '<p class="scoreboard-empty">Inga sparade vinster ännu.</p>';
+        return;
+    }
+    const medals = ["🥇", "🥈", "🥉"];
+    rows.forEach(([name, wins], index) => {
+        const div = document.createElement("div");
+        div.className = "score-item glass-box";
+        const medal = medals[index] || (index + 1) + ".";
+        div.innerHTML =
+            '<span class="medal">' + medal + '</span>' +
+            '<span class="score-name">' + name + '</span>' +
+            '<span class="score-points">🏆 x' + wins + '</span>';
+        list.appendChild(div);
+    });
+}
+
 function stampChicagoDate() {
     const el = document.getElementById("chicagoDateLine");
     if (!el) return;
@@ -36,7 +91,8 @@ function chicagoSnapshot() {
     return {
         players: JSON.parse(JSON.stringify(chicagoPlayers)),
         selected: chicagoSelected,
-        winner: chicagoWinner
+        winner: chicagoWinner,
+        wins: JSON.parse(JSON.stringify(chicagoWins))
     };
 }
 
@@ -50,6 +106,10 @@ function applyChicagoSnapshot(entry) {
     chicagoPlayers = JSON.parse(JSON.stringify(entry.players));
     chicagoSelected = entry.selected;
     chicagoWinner = entry.winner;
+    if (entry.wins) {
+        chicagoWins = JSON.parse(JSON.stringify(entry.wins));
+        saveChicagoWins();
+    }
 }
 
 function selectedChicagoPlayer() {
@@ -74,7 +134,10 @@ function applyNamedEvent(player, type) {
 
     if (type === "RoyalStraightFlush") {
         const result = applyRoyalStraightFlush(player);
-        if (result.ok) chicagoWinner = player.name;
+        if (result.ok) {
+            chicagoWinner = player.name;
+            recordChicagoWin(player.name);
+        }
         saveChicagoHistory();
         renderChicago();
         return;
@@ -119,7 +182,14 @@ function renderChicago() {
         header.className = "player-header chicago-card-header";
         const title = document.createElement("div");
         title.className = "player-name";
+        const wins = chicagoWins[chicagoNameKey(p.name)] || 0;
         title.textContent = p.name;
+        if (wins > 0) {
+            const trophy = document.createElement("span");
+            trophy.className = "trophy";
+            trophy.textContent = " 🏆 x" + wins;
+            title.appendChild(trophy);
+        }
         const total = document.createElement("div");
         total.className = "chicago-score";
         total.textContent = String(p.score);
@@ -160,6 +230,7 @@ function renderChicago() {
                 const result = applyGoOut(p);
                 if (result.ok) {
                     chicagoWinner = p.name;
+                    recordChicagoWin(p.name);
                     saveChicagoHistory();
                     renderChicago();
                 }
@@ -262,20 +333,11 @@ function newChicagoGame() {
 }
 
 document.getElementById("chicagoBtn").addEventListener("click", () => {
-    const hub = document.getElementById("chicagoHubScreen");
-    chicagoScreen.classList.remove("chicago-page-enter");
-    chicagoScreen.classList.add("chicago-page-start");
+    document.getElementById("chicagoHubScreen").classList.add("hidden");
     chicagoScreen.classList.remove("hidden");
     if (chicagoHistory.length === 0) saveChicagoHistory();
     stampChicagoDate();
     renderChicago();
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            chicagoScreen.classList.remove("chicago-page-start");
-            chicagoScreen.classList.add("chicago-page-enter");
-        });
-    });
-    setTimeout(() => hub.classList.add("hidden"), 1100);
 });
 
 document.getElementById("backFromChicago").addEventListener("click", () => {
@@ -299,6 +361,7 @@ document.getElementById("backFromChicagoRules").addEventListener("click", () => 
 document.getElementById("chicagoScoresBtn").addEventListener("click", () => {
     document.getElementById("chicagoHubScreen").classList.add("hidden");
     document.getElementById("chicagoScoreboardScreen").classList.remove("hidden");
+    renderChicagoScoreboard();
 });
 document.getElementById("backFromChicagoScores").addEventListener("click", () => {
     document.getElementById("chicagoScoreboardScreen").classList.add("hidden");
@@ -356,3 +419,5 @@ if (toggleChicagoHands) {
     toggleChicagoHands.addEventListener("change", syncExtraHands);
     syncExtraHands();
 }
+
+

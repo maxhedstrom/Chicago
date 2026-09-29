@@ -18,13 +18,13 @@
 
     <!-- LANDING -->
     <div id="landingScreen" class="home-screen">
-        <img src="cards-pins.jpg" class="card-img">
+        <img src="Flag-Pins-Netherlands-Sweden.jpg" class="flag-img">
         <h1 class="home-title">Game Night</h1>
         <p class="home-subtitle">Choose a game</p>
         <div class="home-buttons">
             <button id="openToepenBtn" class="home-btn start">Toepen</button>
             <button id="openChicagoHubBtn" class="home-btn chicago-book">Chicago-boken</button>
-            <button id="openAboutBtn" class="home-btn scores">Why?</button>
+            <button id="openAboutBtn" class="home-btn scores">About</button>
             <div class="version-tag">Version 1.1.0</div>
         </div>
     </div>
@@ -43,52 +43,85 @@
     </div>
 
     <!-- CHICAGO HUB -->
-<div id="chicagoHubScreen" class="hidden chicago-hub">
-    <button type="button" id="backToLandingFromChicago" class="page-back page-back-light">←</button>
-    <div class="chicago-poster-wrap">
-        <img src="chicago-bg.png" alt="Chicago-boken" class="chicago-poster">
+    <div id="chicagoHubScreen" class="hidden chicago-hub">
+        <button type="button" id="backToLandingFromChicago" class="page-back page-back-light" aria-label="Back">←</button>
+        <div class="chicago-poster-wrap">
+            <img src="chicago-bg.png" alt="Chicago-boken" class="chicago-poster">
+        </div>
+        <div class="chicago-hub-actions">
+            <button type="button" id="chicagoBtn" class="hub-btn">Starta spel</button>
+            <button type="button" id="chicagoRulesBtn" class="hub-btn">Regler</button>
+            <button type="button" id="chicagoScoresBtn" class="hub-btn">Scoreboard</button>
+        </div>
     </div>
-    <div class="chicago-hub-actions">
-        <button type="button" id="chicagoBtn" class="hub-btn">Starta spel</button>
-        <button type="button" id="chicagoRulesBtn" class="hub-btn">Regler</button>
-        <button type="button" id="chicagoScoresBtn" class="hub-btn">Scoreboard</button>
-    </div>
-</div>
 
     <!-- ABOUT -->
     <div id="aboutScreen" class="hidden rules-screen">
         <div class="rules-card glass-box">
             <h2 class="rules-title">About</h2>
-            <p>Scorekeeper for Toepen and Chicago. Built for game night, no account needed at the table.</p>
-            <p>Work in progress... A lot of updates is inbound</p>
-        </div>
+            <p>There is nothing better playing card games, perhaps with a beer in your hand at Kvarteret, or over a coffee. This web app is an easy and fun way to count points without pen and paper.
+                <br></br>
+            <p>Good luck, or as we säy in Örebro:<br>Krossa Degen, ta hem segern!</br></p>
+
+            
+        </div> 
         <button id="backFromAbout" class="page-back" aria-label="Back">←</button>
     </div>
 
     <!-- CHICAGO RULES -->
-    <div id="chicagoRulesScreen" class="hidden rules-screen chicago-hero">
+    <div id="chicagoRulesScreen" class="hidden rules-screen">
+        <button id="backFromChicagoRules" class="page-back" aria-label="Back">←</button>
+
         <div class="rules-card glass-box">
             <h2 class="rules-title">Chicago</h2>
-            <p>Först till 52 kan gå ut. Sista stick efter 52 vinner — tryck Gå ut.</p>
+            <p class="rules-subtitle">Vanlig kortlek, inga jokrar. Samtliga kort används Två spelare eller fler.</p>
         </div>
+
         <div class="rules-card glass-box">
-            <h3>Poäng</h3>
-            <ul class="rules-list">
-                <li>Par +1, Utspel +5</li>
-                <li>Två par +2, Triss +3, Stege +4, Färg +5, Kåk +6</li>
-                <li>Fyrtal +8 eller nollställ övriga</li>
-                <li>Färgstege +11, Royal Flush +20</li>
-                <li>Chicago +15 / −15</li>
-                <li>Royal Straight Flush vinner direkt</li>
-            </ul>
+            <h3>Poäng mall</h3>
+            <div class="chicago-points">
+                <div><span>Utspel</span><b>+5</b></div>
+                <div><span>Par</span><b>+1</b></div>
+                <div><span>Två par</span><b>+2</b></div>
+                <div><span>Triss</span><b>+3</b></div>
+                <div><span>Stege</span><b>+4</b></div>
+                <div><span>Färg</span><b>+5</b></div>
+                <div><span>Kåk</span><b>+6</b></div>
+                <div><span>Fyrtal</span><b>+8 eller nollställ</b></div>
+                <div><span>Färgstege</span><b>+11</b></div>
+                <div><span>Royal Flush</span><b>+20</b></div>
+                <div><span>Chicago</span><b>+15 / −15</b></div>
+                <div><span>Royal Straight Flush</span><b>vinner spelet</b></div>
+            </div>
         </div>
-        <button id="backFromChicagoRules" class="page-back" aria-label="Back">←</button>
+
+        <div class="rules-card glass-box">
+            <h3>Giv</h3>
+            <p>Dra kort, högst blir giv. Given roterar medurs varje omgång.</p>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>Byten &amp; hand</h3>
+            <p>Fem kort var. Två byten per runda, valfritt antal kort. Byter man bara ett kort kan man se ett öppet och ta det eller få ett stängt.</p>
+            <p>Efter första bytet frågar given vad spelarna har. Bäst hand får poäng. Man säger typ av hand, inte exakt vad.</p>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>Utspel</h3>
+            <p>Stickrunda med de fem korten. Spelaren till vänster om given lägger första kortet. Följ färg, slå för att ta kommandot. Sista sticket ger utspelspoäng. Därefter får bäst hand poäng igen.</p>
+        </div>
+
+        <div class="rules-card glass-box">
+            <h3>Ta Chicago</h3>
+            <p>Ta alla stick i utspelet: <strong>+15</strong>. Misslyckas: <strong>−15</strong>. Den som ropar lägger första kortet. Ingen handpoäng den omgången.</p>
+            <p>Förtur har den närmast given (förhand). Så kan man stoppa någon som annars skulle gå ut.</p>
+        </div>
     </div>
 
     <!-- CHICAGO SCOREBOARD PLACEHOLDER -->
     <div id="chicagoScoreboardScreen" class="hidden scoreboard-screen chicago-hero">
         <h2 class="scoreboard-title">Chicago Scoreboard</h2>
-        <p class="chicago-hint">Lokal tavla kommer i nästa verision.</p>
+        <div id="chicagoScoreboardList" class="scoreboard-list"></div>
         <button id="backFromChicagoScores" class="page-back" aria-label="Back">←</button>
     </div>
 
