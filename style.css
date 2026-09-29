@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap");
+
 /* ===== GLOBAL ===== */
 body {
     font-family: system-ui, sans-serif;
@@ -19,6 +21,7 @@ body {
     border-radius: 12px;
     margin-bottom: 25px;
 }
+
 .card-img {
     width: 350px;
     border-radius: 12px;
@@ -355,7 +358,7 @@ body {
     pointer-events: none;
 }
 
-/* ===== CHICAGO ===== */
+/* ===== SHARED BACK ===== */
 .page-back {
     position: fixed;
     top: 12px;
@@ -377,10 +380,130 @@ body {
     border-color: rgba(245, 234, 214, 0.6);
 }
 
-.chicago-screen { padding-bottom: 40px; }
-.chicago-title { font-size: 2rem; font-weight: 800; margin: 0 0 12px; }
-.chicago-card-header { display: flex; justify-content: space-between; align-items: baseline; }
-.chicago-score { font-size: 2rem; font-weight: 800; color: #2563eb; line-height: 1; }
+#gameScreen,
+#chicagoScreen,
+#rulesScreen,
+#scoreboardScreen,
+#aboutScreen,
+#chicagoRulesScreen,
+#chicagoScoreboardScreen {
+    padding-top: 56px;
+}
+
+/* ===== CHICAGO HUB ===== */
+#chicagoHubScreen.chicago-hub:not(.hidden) {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    margin: 0;
+    padding: 54px 0 16px;
+    overflow: auto;
+    background: #E81536;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#chicagoHubScreen.hidden { display: none !important; }
+
+.chicago-poster-wrap {
+    position: relative;
+    width: min(100%, 480px);
+    flex: 0 0 auto;
+}
+
+.chicago-poster {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.chicago-hub-actions {
+    width: min(260px, 80%);
+    margin: 8px auto 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hub-btn {
+    background: #f5ead6;
+    color: #E81536;
+    border: none;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    cursor: pointer;
+}
+
+.hub-btn:active { background: #fff; }
+
+/* ===== CHICAGO ENGINE / NOTEBOOK ===== */
+#chicagoScreen.chicago-screen {
+    position: relative;
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    min-height: 100vh;
+    padding: 56px 16px 48px;
+    box-sizing: border-box;
+    background-color: #f6ecd9;
+    background-image:
+        linear-gradient(#d95555, #d95555),
+        repeating-linear-gradient(
+            to bottom,
+            #f6ecd9 0 27px,
+            #c9d4e0 27px 28px
+        );
+    background-size: 1px 100%, 100% 28px;
+    background-position: 36px 0, 0 0;
+    background-repeat: no-repeat, repeat;
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chicago-date-line {
+    position: absolute;
+    top: 18px;
+    right: 14px;
+    margin: 0;
+    font-family: Caveat, cursive;
+    font-size: 1.05rem;
+    color: #1e3a5f;
+    transform: rotate(1.1deg);
+}
+
+.chicago-title {
+    font-family: Caveat, cursive;
+    font-size: 2.6rem;
+    font-weight: 500;
+    color: #1e3a5f;
+    margin: 0 0 16px;
+    text-align: center;
+    transform: rotate(-0.8deg);
+}
+
+#chicagoScreen.chicago-page-start {
+    transform: translateX(100%);
+}
+#chicagoScreen.chicago-page-enter {
+    transform: translateX(0);
+}
+
+.chicago-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.chicago-score {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2563eb;
+    line-height: 1;
+}
+
 .chicago-selected { outline: 3px solid #2563eb; }
 .chicago-winner { outline: 3px solid #16a34a; }
 
@@ -428,52 +551,6 @@ body {
     margin: 4px 0 10px;
 }
 
-#chicagoHubScreen.chicago-hub:not(.hidden) {
-    position: fixed;
-    inset: 0;
-    z-index: 40;
-    margin: 0;
-    padding: 54px 0 16px;   /* 44px = ner från ← */    overflow: auto;
-    background: #E81536;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+#chicagoScreen .player {
+    background: rgba(255, 250, 242, 0.86);
 }
-
-#chicagoHubScreen.hidden { display: none !important; }
-
-.chicago-poster-wrap {
-    position: relative;
-    width: min(100%, 480px);
-    flex: 0 0 auto;
-}
-
-.chicago-poster {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.chicago-hub-actions {
-    position: static;
-    transform: none;
-    width: min(260px, 80%);
-    margin: 8px auto 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.hub-btn {
-    background: #f5ead6;
-    color: #E81536;
-    border: none;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 12px 14px;
-    cursor: pointer;
-}
-
-.hub-btn:active { background: #fff; }

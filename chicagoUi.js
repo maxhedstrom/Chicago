@@ -9,6 +9,19 @@ const chicagoPlayerList = document.getElementById("chicagoPlayerList");
 const chicagoNameInput = document.getElementById("chicagoNameInput");
 const chicagoWinnerBanner = document.getElementById("chicagoWinnerBanner");
 
+function stampChicagoDate() {
+    const el = document.getElementById("chicagoDateLine");
+    if (!el) return;
+    const d = new Date();
+    const day = d.toLocaleDateString("sv-SE", {
+        weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Stockholm"
+    });
+    const time = d.toLocaleTimeString("sv-SE", {
+        hour: "2-digit", minute: "2-digit", timeZone: "Europe/Stockholm"
+    });
+    el.textContent = day + "  ·  " + time;
+}
+
 function extraHandsOn() {
     const el = document.getElementById("toggleChicagoHands");
     return Boolean(el && el.checked);
@@ -249,10 +262,20 @@ function newChicagoGame() {
 }
 
 document.getElementById("chicagoBtn").addEventListener("click", () => {
-    document.getElementById("chicagoHubScreen").classList.add("hidden");
+    const hub = document.getElementById("chicagoHubScreen");
+    chicagoScreen.classList.remove("chicago-page-enter");
+    chicagoScreen.classList.add("chicago-page-start");
     chicagoScreen.classList.remove("hidden");
     if (chicagoHistory.length === 0) saveChicagoHistory();
+    stampChicagoDate();
     renderChicago();
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            chicagoScreen.classList.remove("chicago-page-start");
+            chicagoScreen.classList.add("chicago-page-enter");
+        });
+    });
+    setTimeout(() => hub.classList.add("hidden"), 1100);
 });
 
 document.getElementById("backFromChicago").addEventListener("click", () => {

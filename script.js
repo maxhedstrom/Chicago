@@ -588,6 +588,10 @@ document.addEventListener("gesturestart", function (e) {
     e.preventDefault();
 }, { passive: false });
 
+document.getElementById("backFromGame").addEventListener("click", () => {
+    document.getElementById("gameScreen").classList.add("hidden");
+    document.getElementById("homeScreen").classList.remove("hidden");
+});
 
 /* ===========================
    SERVICE WORKER
@@ -596,3 +600,4 @@ document.addEventListener("gesturestart", function (e) {
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./sw.js");
 }
+
